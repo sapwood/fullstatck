@@ -1,3 +1,4 @@
+```mermaid
 sequenceDiagram
     participant browser
     participant server
@@ -9,3 +10,4 @@ sequenceDiagram
     server->>browser: {"message":"note created"}
     deactivate server
     note left of server: Send back the success message
+```
