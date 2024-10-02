@@ -1,9 +1,9 @@
 import { useState } from 'react'
 
-const Button=({event})=>{
+const Button=({event,text})=>{
   return (
     <button onClick={event}>
-      Next Anecdote
+      {text}
     </button>
   )
 }
@@ -22,6 +22,8 @@ const App=()=>{
   ]
   const [select,setSelect] = useState(0)
   const [lastSelect,setLastSelect] = useState(0)
+  const [vote,setVote] = useState({})
+
   const handleClick=()=>{
     let newSelect
 
@@ -31,15 +33,25 @@ const App=()=>{
     
     setSelect(newSelect)
     setLastSelect(newSelect)
-    
-
   }
-  console.log('select is ',select)
+  
+  const handleVote=()=>{
+    setVote(preVote=>{
+      const newVote = {...preVote}
+      newVote[select]=(newVote[select] || 0)+1
+      return newVote
+    })
+    
+  }
+  
+
+
   return (
     <div>
       <h1>{anecdotes[select]}</h1>
       <div>
-      <Button event={handleClick} />
+      <Button event={handleClick} text="Next Anecdote" />
+      <Button event={handleVote} text="Vote" />
       </div>
       
     </div>
