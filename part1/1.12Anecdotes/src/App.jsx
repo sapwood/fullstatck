@@ -8,6 +8,24 @@ const Button=({event,text})=>{
   )
 }
 
+const Title=({text})=>{
+  return (
+    <h1>{text} </h1>
+  )
+    
+}
+const Anecdote=({text})=>{
+  return (
+    <p>{text}</p>
+  )
+
+}
+const VoteNum=({maxIndex,vote})=>{
+  return (
+    maxIndex &&
+    (<p>has {vote[maxIndex]} votes</p>)
+  )
+}
 
 const App=()=>{
   const anecdotes= [
@@ -43,17 +61,28 @@ const App=()=>{
     })
     
   }
-  
+
+  const maxIndex = Object.entries(vote).reduce((max, [key, value]) => 
+    value > vote[max] ? key : max
+  , Object.keys(vote)[0]);
+
+  console.log(vote)
+  console.log(maxIndex)
 
 
   return (
     <div>
-      <h1>{anecdotes[select]}</h1>
+      <Title text="Anecdote of the day" />
+      <Anecdote text={anecdotes[select]} />
+      <p>has {vote[select] || 0} votes</p>
       <div>
       <Button event={handleClick} text="Next Anecdote" />
       <Button event={handleVote} text="Vote" />
       </div>
-      
+      <Title text="Anecdote with most votes" />
+      <Anecdote text={anecdotes[maxIndex]} />
+      <VoteNum maxIndex={maxIndex} vote={vote}/>
+
     </div>
   )
 }
