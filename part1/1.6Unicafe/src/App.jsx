@@ -62,7 +62,16 @@ const App=()=>{
 
   const st=[
     {
-      text: 'all', value: total
+      text : 'good', value : rate.good
+    },
+    {
+      text : 'neutral', value : rate.neutral
+    },
+    {
+      text : 'bad', value: rate.bad
+    },
+    {
+      text: 'all', value : total
     },
     {
       text: 'average', value : average
@@ -82,9 +91,7 @@ const App=()=>{
       <Button event={handleNeutralClick} text='neutral' />
       <Button event={handleBadClick} text='bad' />
       <Title title="Statistics" />
-      <Display content='good' num={rate.good} />
-      <Display content='neutral' num={rate.neutral} />
-      <Display content='bad' num={rate.bad} />
+
       <Statistics st={st} />
     </div>
 
