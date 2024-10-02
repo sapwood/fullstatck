@@ -38,6 +38,7 @@ const Statistics=({st})=>{
           ))
       )
     }
+    {!hasValue && <p>No Feedback Given</p>}
   </div>
   
   )
