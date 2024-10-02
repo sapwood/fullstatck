@@ -23,6 +23,24 @@ const Display=({content,num})=>{
   )
 }
 
+const Table=({st})=>{
+
+  return (
+    <table>
+      <tbody>
+        {st.map((e,index)=>(
+          <tr key={index}>
+            <td>{e.text}</td>
+            <td>{e.value}</td>
+          </tr>
+        )
+
+        )}
+      </tbody>
+    </table>
+  )
+}
+
 const Statistics=({st})=>{
 
   const hasValue=st[3].value > 0
@@ -31,11 +49,9 @@ const Statistics=({st})=>{
   <div>          
     {
       hasValue &&(
-
-          st.map((e,index) => (
-            <Display key={index} content={e.text} num={e.value} />
-
-          ))
+        
+  
+        <Table st={st} />
       )
     }
     {!hasValue && <p>No Feedback Given</p>}
