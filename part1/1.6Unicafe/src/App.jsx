@@ -17,12 +17,22 @@ const Title=({title})=>{
 }
 
 const Display=({content,num})=>{
-  
+
   return (
     <p>{content} {num}</p>
   )
 }
 
+const Statistics=({st})=>{
+  return (
+   
+    st.map((e,index) => (
+      <Display key={index} content={e.text} num={e.value} />
+      
+    ))
+  
+  )
+}
 
 const App=()=>{
 
@@ -49,6 +59,20 @@ const App=()=>{
   const total = rate.good+rate.neutral+rate.bad
   const average = (rate.good*1+rate.neutral*0+rate.bad*-1)/total
   const positive = (rate.good/total)*100+'%'
+
+  const st=[
+    {
+      text: 'all', value: total
+    },
+    {
+      text: 'average', value : average
+    },
+    {
+      text: 'positive', value : positive
+    }
+    
+  ]
+  
  
   return (
 
@@ -61,9 +85,7 @@ const App=()=>{
       <Display content='good' num={rate.good} />
       <Display content='neutral' num={rate.neutral} />
       <Display content='bad' num={rate.bad} />
-      <Display content='all' num={total} />
-      <Display content='average' num={average} />
-      <Display content='positive' num={positive} />
+      <Statistics st={st} />
     </div>
 
   )
