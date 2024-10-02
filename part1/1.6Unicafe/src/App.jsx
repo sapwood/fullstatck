@@ -24,12 +24,21 @@ const Display=({content,num})=>{
 }
 
 const Statistics=({st})=>{
+
+  const hasValue=st[3].value > 0
+
   return (
-   
-    st.map((e,index) => (
-      <Display key={index} content={e.text} num={e.value} />
-      
-    ))
+  <div>          
+    {
+      hasValue &&(
+
+          st.map((e,index) => (
+            <Display key={index} content={e.text} num={e.value} />
+
+          ))
+      )
+    }
+  </div>
   
   )
 }
