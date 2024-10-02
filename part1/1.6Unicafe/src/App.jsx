@@ -17,6 +17,7 @@ const Title=({title})=>{
 }
 
 const Display=({content,num})=>{
+  
   return (
     <p>{content} {num}</p>
   )
@@ -44,6 +45,11 @@ const App=()=>{
   const handleBadClick=()=>{
     setRate({...rate,bad:rate.bad+1})
   }
+
+  const total = rate.good+rate.neutral+rate.bad
+  const average = (rate.good*1+rate.neutral*0+rate.bad*-1)/total
+  const positive = (rate.good/total)*100+'%'
+ 
   return (
 
     <div>
@@ -55,6 +61,9 @@ const App=()=>{
       <Display content='good' num={rate.good} />
       <Display content='neutral' num={rate.neutral} />
       <Display content='bad' num={rate.bad} />
+      <Display content='all' num={total} />
+      <Display content='average' num={average} />
+      <Display content='positive' num={positive} />
     </div>
 
   )
