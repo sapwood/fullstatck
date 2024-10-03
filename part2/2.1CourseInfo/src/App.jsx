@@ -3,9 +3,11 @@
 const Course = ({course})=>{
   return (
     <>
-    <Header text={course.name} />
-    <Content parts={course.parts} />
-    <Total parts={course.parts} />
+    <Header  text={course.name} />
+    <Content curriculum={course.curriculum} />
+
+    
+
     </>
 
   ) 
@@ -17,13 +19,27 @@ const Header=({text})=>{
   )
 }
 
-const Content=({parts})=>{
+const Content=({curriculum})=>{
   
   return (
-    parts.map(e=> 
-    <Part key={e.id} name={e.name} exercises={e.exercises} />
- 
-    )
+  
+    
+    curriculum.map((item,q)=> 
+    { 
+      return (
+        
+        <div key={item.id}>
+        <Header key={item.id+'header'} text={item.name} />
+
+        {item.parts.map((e)=>(
+          <Part key={q.toString()+e.id} name={e.name} exercises={e.exercises} />
+        ))} 
+        <Total key={item.id+'total'}  curriculum={item.parts} />
+        </div>
+      )
+
+    }   
+    )   
   )
 }
 
@@ -39,37 +55,60 @@ const Part=({name,exercises})=>{
 }
 
 
-const Total=({parts})=>{
-  const sum= parts.reduce((accumulator,currentValue)=>(accumulator+currentValue.exercises),0)
+const Total=({curriculum})=>{
+  
+  const sum = curriculum.reduce((accumulator,currentValue)=>(accumulator+currentValue.exercises),0)
   return(
     <h3>Total of {sum} exercises</h3>
   )
 }
 
 const App=()=>{
-  const course = {
-    id: 1,
-    name: 'Half Stack application development',
-    parts: [
-      {
-        name: 'Fundamentals of React',
-        exercises: 10,
-        id: 1
+  const course =
+  { name: 'Web development curriculum',
+  
+  curriculum : [
+        {
+        id: 1,
+        name: 'Half Stack application development',
+        parts: [
+          {
+            name: 'Fundamentals of React',
+            exercises: 10,
+            id: 1
+          },
+          {
+            name: 'Using props to pass data',
+            exercises: 7,
+            id: 2
+          },
+          {
+            name: 'State of a component',
+            exercises: 14,
+            id: 3
+          },
+          {
+            name : 'Redux',
+            exercises : 11,
+            id: 4
+          }
+        ]
       },
       {
-        name: 'Using props to pass data',
-        exercises: 7,
-        id: 2
-      },
-      {
-        name: 'State of a component',
-        exercises: 14,
-        id: 3
-      },
-      {
-        name : 'Redux',
-        exercises : 11,
-        id: 4
+        id : 2,
+        name : 'Node.js',
+        parts:[
+          {
+            id: 1,
+            name : 'Routing',
+            exercises : 3
+          },
+          {
+            id : 2,
+            name : 'Middlewares',
+            exercises : 7
+          }
+        ]
       }
     ]
   }
