@@ -5,6 +5,7 @@ const Course = ({course})=>{
     <>
     <Header text={course.name} />
     <Content parts={course.parts} />
+    <Total parts={course.parts} />
     </>
 
   ) 
@@ -38,10 +39,10 @@ const Part=({name,exercises})=>{
 }
 
 
-
-const Total=(props)=>{
+const Total=({parts})=>{
+  const sum= parts.reduce((accumulator,currentValue)=>(accumulator+currentValue.exercises),0)
   return(
-    <p>Number of exercises {props.course.parts[0].exercises+props.course.parts[1].exercises+props.course.parts[2].exercises}</p>
+    <h3>Total of {sum} exercises</h3>
   )
 }
 
@@ -64,6 +65,11 @@ const App=()=>{
         name: 'State of a component',
         exercises: 14,
         id: 3
+      },
+      {
+        name : 'Redux',
+        exercises : 11,
+        id: 4
       }
     ]
   }
