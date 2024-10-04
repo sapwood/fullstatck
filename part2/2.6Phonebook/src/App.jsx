@@ -21,14 +21,23 @@ const App = () => {
     const nameObject={
       name: newName
     }
-    setPersons(persons.concat(nameObject))
-    setNewName('')
+
+    const isDuplicated= persons.some(item=>item.name.toLowerCase()===nameObject.name.toLocaleLowerCase())
+    
+    if (isDuplicated){
+      alert(`${nameObject.name} is alrady added to phonebook`)
+    }
+    else{
+      setPersons(persons.concat(nameObject))  
+      setNewName('')
+    }
+
   }
   const handleInput=(event)=>{
     
     setNewName(event.target.value)
   }
-
+  
   return (
     <div>
       <h2>Phonebook</h2>
