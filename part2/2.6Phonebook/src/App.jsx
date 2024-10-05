@@ -1,12 +1,9 @@
 import { useState } from 'react'
+import Filter from './components/Filter'
+import PersonForm from './components/PersonForm'
+import Persons from './components/Persons'
 
 
-const Name=({name,number})=>{
-  return (
-    <p>{name} {number}</p>
-  )
- 
-}
 
 
 const App = () => {
@@ -63,29 +60,12 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-
-        filter shown with <input onChange={handleSearch}/>
-      </div>
-
+        <Filter handle={handleSearch}/>
+      
       <h2>add a new</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          name: <input value={newName} onChange={handleNameInput}/>
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberInput}  />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+        <PersonForm newName={newName} newNumber={newNumber} handleSubmit={handleSubmit} handleNameInput={handleNameInput} handleNumberInput={handleNumberInput} />
       <h2>Numbers</h2>
-      {
-        search.map(person=>(
-          <Name key={person.name} name={person.name} number={person.number}/>
-        ))
-      }
+        <Persons search={search} />
     </div>
   )
 }
