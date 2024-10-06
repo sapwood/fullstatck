@@ -1,5 +1,5 @@
 import { useState,useEffect } from 'react'
-import axios from 'axios'
+import personService from './services/persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
@@ -16,14 +16,14 @@ const App = () => {
   const [newNumber,setNewNumber]=useState('')
 
   useEffect(()=>{
-    axios
-      .get("http://localhost:3001/persons")
-      .then(response=>{
-        const value=response.data
-        setPersons(value)
-        setSearch(value)
 
+    personService
+      .getAll()
+      .then(data=>{     
+        setPersons(data)
+        setSearch(data)
       })
+
   },[])
 
 
@@ -32,8 +32,10 @@ const App = () => {
     event.preventDefault()
     
     const nameObject={
+
       name: newName,
       number: newNumber,
+      id : String(persons.length+1)
     }
 
     const isDuplicated= persons.some(item=>item.name.toLowerCase()===nameObject.name.toLocaleLowerCase())
@@ -42,12 +44,20 @@ const App = () => {
       alert(`${nameObject.name} is alrady added to phonebook`)
     }
     else{
-      const updatedPersons=persons.concat(nameObject)
-      setPersons(updatedPersons)  
-      setSearch(updatedPersons)
+      
+      personService
+        .create(nameObject)
+        .then(data=>{
+          const updatedPersons=persons.concat(data)
+          setPersons(updatedPersons) 
+          setSearch(updatedPersons)
+          setNewName('')
+          setNewNumber('')
+        })
+       
+      
 
-      setNewName('')
-      setNewNumber('')
+
     }
 
   }
