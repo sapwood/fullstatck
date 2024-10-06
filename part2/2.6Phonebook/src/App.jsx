@@ -1,9 +1,10 @@
 import { useState,useEffect } from 'react'
+import './index.css'
 import personService from './services/persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
-
+import Notification from './components/Notification'
 
 
 
@@ -14,6 +15,8 @@ const App = () => {
 
   const [newName, setNewName] = useState('')
   const [newNumber,setNewNumber]=useState('')
+
+  const [errorMessage,setErrorMessage] = useState(null)
 
   useEffect(()=>{
 
@@ -61,6 +64,11 @@ const App = () => {
           setSearch(updatedPersons)
           setNewName('')
           setNewNumber('')
+
+          setErrorMessage(`The person ${data.name} has been updated to server succussfully.`)
+          setTimeout(()=>{
+            setErrorMessage(null)
+          },5000)
         })
       }
 
@@ -75,6 +83,10 @@ const App = () => {
           setSearch(updatedPersons)
           setNewName('')
           setNewNumber('')
+          setErrorMessage(`The person ${data.name} has been added to server succussfully.`)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000);
         })
        
           }
@@ -115,13 +127,14 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-        <Filter handle={handleSearch}/>
+      <Notification message={errorMessage} />
+      <Filter handle={handleSearch}/>
       
       <h2>add a new</h2>
-        <PersonForm newName={newName} newNumber={newNumber} handleSubmit={handleSubmit} handleNameInput={handleNameInput} handleNumberInput={handleNumberInput} />
-      <h2>Numbers</h2>
+      <PersonForm newName={newName} newNumber={newNumber} handleSubmit={handleSubmit} handleNameInput={handleNameInput} handleNumberInput={handleNumberInput} />
       
-        <Persons search={search} handleDelete={handleDelete}/>
+      <h2>Numbers</h2>
+      <Persons search={search} handleDelete={handleDelete}/>
     </div>
   )
 }
