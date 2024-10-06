@@ -1,17 +1,20 @@
-const Persons=({search})=>{
+const Persons=({search,handleDelete})=>{
     return (
         
             search.map(person=>(
-              <Name key={person.name} name={person.name} number={person.number}/>
+              <Name key={person.name} name={person.name} number={person.number} handleDelete={()=>handleDelete(person.id)}/>
             ))
         
     )
 
 }
 
-const Name=({name,number})=>{
+const Name=({name,number,handleDelete})=>{
     return (
-      <p>{name} {number}</p>
+      <div>
+      {name} {number}
+      <button onClick={handleDelete}>Delete</button>
+      </div>
     )
    
   }

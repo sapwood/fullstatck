@@ -34,8 +34,8 @@ const App = () => {
     const nameObject={
 
       name: newName,
-      number: newNumber,
-      id : String(persons.length+1)
+      number: newNumber
+      
     }
 
     const isDuplicated= persons.some(item=>item.name.toLowerCase()===nameObject.name.toLocaleLowerCase())
@@ -75,6 +75,22 @@ const App = () => {
     setSearch(persons.filter(item=>item.name.toLowerCase().includes(value.toLowerCase())))
 
   }
+
+  const handleDelete=(id)=>{
+    if (confirm(`Delete ${persons.find(p=>p.id===id).name} ?`))
+    {
+      personService
+      .remove(id)
+      .then(data=>{
+        console.log(`${data} has been deleted`)
+        const updatedPersons=persons.filter(p=>p.id!==id)
+        setPersons(updatedPersons)
+        setSearch(updatedPersons)
+
+      })
+    }
+
+  }
   
   return (
     <div>
@@ -84,7 +100,8 @@ const App = () => {
       <h2>add a new</h2>
         <PersonForm newName={newName} newNumber={newNumber} handleSubmit={handleSubmit} handleNameInput={handleNameInput} handleNumberInput={handleNumberInput} />
       <h2>Numbers</h2>
-        <Persons search={search} />
+      
+        <Persons search={search} handleDelete={handleDelete}/>
     </div>
   )
 }
