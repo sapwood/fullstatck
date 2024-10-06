@@ -1,5 +1,5 @@
 import { useState,useEffect } from 'react'
-import './index.css'
+
 import personService from './services/persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
@@ -17,6 +17,7 @@ const App = () => {
   const [newNumber,setNewNumber]=useState('')
 
   const [errorMessage,setErrorMessage] = useState(null)
+  const [errorStatus,setErrorStatus] = useState(true)
 
   useEffect(()=>{
 
@@ -65,10 +66,18 @@ const App = () => {
           setNewName('')
           setNewNumber('')
 
+          setErrorStatus(true)
           setErrorMessage(`The person ${data.name} has been updated to server succussfully.`)
           setTimeout(()=>{
             setErrorMessage(null)
           },5000)
+        })
+        .catch(error=>{
+          setErrorStatus(false)
+          setErrorMessage(`The person ${newName} had already been deleted from server.`)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
         })
       }
 
@@ -83,11 +92,15 @@ const App = () => {
           setSearch(updatedPersons)
           setNewName('')
           setNewNumber('')
+
+          setErrorStatus(true)
           setErrorMessage(`The person ${data.name} has been added to server succussfully.`)
           setTimeout(() => {
             setErrorMessage(null)
-          }, 5000);
+          }, 5000)
         })
+
+
        
           }
   }
@@ -114,11 +127,18 @@ const App = () => {
       personService
       .remove(id)
       .then(data=>{
-        console.log(`${data} has been deleted`)
+        console.log(`${data.name} has been deleted`)
         const updatedPersons=persons.filter(p=>p.id!==id)
         setPersons(updatedPersons)
         setSearch(updatedPersons)
 
+      })
+      .catch(error=>{
+        setErrorStatus(false)
+        setErrorMessage(`The person ${persons.find(p=>p.id===id).name} had already been deleted from server.`)
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
       })
     }
 
@@ -127,7 +147,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={errorMessage} />
+      <Notification message={errorMessage} errorStatus={errorStatus}/>
       <Filter handle={handleSearch}/>
       
       <h2>add a new</h2>
