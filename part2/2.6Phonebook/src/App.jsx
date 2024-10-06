@@ -41,7 +41,29 @@ const App = () => {
     const isDuplicated= persons.some(item=>item.name.toLowerCase()===nameObject.name.toLocaleLowerCase())
     
     if (isDuplicated){
-      alert(`${nameObject.name} is alrady added to phonebook`)
+      
+      const c = confirm(`${nameObject.name} is already added to phonebook,replace the old number with new one?`)
+      
+      if (c) {
+        const id= persons.find(p=>p.name.toLowerCase()===nameObject.name.toLocaleLowerCase()).id
+        
+        personService
+        .update(id,nameObject)
+        .then(data=>{
+          console.log(`${nameObject.name} number has been updated`)
+          console.log(`${JSON.stringify(data)}`)
+          const updatedPersons=persons.map(p=>
+            ( p.id===id ? {...p,number:nameObject.number}: p) 
+          )
+          console.log(`update persons is ${JSON.stringify(updatedPersons)}`)
+
+          setPersons(updatedPersons) 
+          setSearch(updatedPersons)
+          setNewName('')
+          setNewNumber('')
+        })
+      }
+
     }
     else{
       
@@ -55,12 +77,10 @@ const App = () => {
           setNewNumber('')
         })
        
-      
-
-
-    }
-
+          }
   }
+
+
   const handleNameInput=(event)=>{
     
     setNewName(event.target.value)
