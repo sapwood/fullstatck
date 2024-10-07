@@ -1,4 +1,4 @@
-const Result=({data})=>{
+const Result=({data,handleShow})=>{
 
     if (data===null){
         return null
@@ -15,7 +15,12 @@ const Result=({data})=>{
 
             <ul>
                 {data.map((value,index)=>(
-                    <li key={index}>{value.name.common}</li>
+                    <div>
+                    <li key={index}>
+                        {value.name.common} <button key={index} onClick={()=>handleShow(value.name.common)} >show</button>
+                    </li>
+                    
+                    </div>
                     ))}
              </ul>
         )
@@ -23,30 +28,37 @@ const Result=({data})=>{
     }
     else if (data.length===1){
         return (
-            <div>
-                <h1>{data[0].name.common}</h1>
-                
-                
-                <div>Capital: {data[0].capital.join(', ')}</div>
-                <div>Area: {data[0].area}</div>
-
-                <h4>Languages</h4>
-
-                
-                <ul>
-                    {Object.values(data[0].languages).map((value,index)=>(
-                        <li key={index}>{value}</li>
-                    ))}
-                </ul>
-
-                <div>
-                    <img src={data[0].flags.png} alt={data[0].flags.alt}/> 
-                </div>
-                
-            </div>
+            <Detail data={data[0]}/>
         )
+        
     }
     
+}
+
+const Detail=({data})=>{
+    return (
+        <div>
+        <h1>{data.name.common}</h1>
+        
+        
+        <div>Capital: {data.capital.join(', ')}</div>
+        <div>Area: {data.area}</div>
+
+        <h4>Languages</h4>
+
+        
+        <ul>
+            {Object.values(data.languages).map((value,index)=>(
+                <li key={index}>{value}</li>
+            ))}
+        </ul>
+
+        <div>
+            <img src={data.flags.png} alt={data.flags.alt}/> 
+        </div>
+        
+    </div>
+    )
 }
 
 export default Result

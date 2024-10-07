@@ -34,11 +34,21 @@ const App=()=>{
     
   }
 
+  const handleShow=(name)=>{
+    
+    axios
+      .get(`${baseUrl}/name/${name}`)
+      .then((response)=>{
+       
+        setResult([response.data])
+      })
+  }
+
   return (
     <div>
       
       find countries: <input  onChange={handleChange} />
-      <Result data={result}/>
+      <Result data={result} handleShow={handleShow}/>
     </div>
   )
 }
