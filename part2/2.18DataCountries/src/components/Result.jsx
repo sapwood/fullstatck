@@ -1,5 +1,8 @@
-const Result=({data,handleShow})=>{
+import axios from "axios"
+import { useEffect,useState } from "react"
 
+const Result=({data,handleShow})=>{
+    
     if (data===null){
         return null
     }
@@ -15,7 +18,7 @@ const Result=({data,handleShow})=>{
 
             <ul>
                 {data.map((value,index)=>(
-                    <div>
+                    <div key={index}>
                     <li key={index}>
                         {value.name.common} <button key={index} onClick={()=>handleShow(value.name.common)} >show</button>
                     </li>
@@ -36,6 +39,19 @@ const Result=({data,handleShow})=>{
 }
 
 const Detail=({data})=>{
+    const weatherUrl="https://api.open-meteo.com/v1/forecast?"
+    const [temp,setTemp] =useState(null)
+    const [wind,setWind] = useState(null)
+
+    useEffect(()=>{
+        axios
+          .get(`${weatherUrl}latitude=${data.latlng[0]}&longitude=${data.latlng[1]}&current=temperature_2m,wind_speed_10m`)
+          .then((response)=>{
+            setTemp(response.data.current.temperature_2m)
+            setWind(response.data.current.wind_speed_10m)
+          })
+    },[])
+
     return (
         <div>
         <h1>{data.name.common}</h1>
@@ -55,6 +71,14 @@ const Detail=({data})=>{
 
         <div>
             <img src={data.flags.png} alt={data.flags.alt}/> 
+        </div>
+
+        <div>
+            <h1>Weather in {data.capital.join(', ')}</h1>
+            
+            <div>Temperature {temp}	Celsuis</div>
+            <div>Wind {wind} km/h</div>
+
         </div>
         
     </div>
